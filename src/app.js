@@ -18,13 +18,9 @@ form.addEventListener("keydown", (e) => {
   }
 });
 
+const submitButton = document.querySelector("button");
 
-
-const submitButton = document.querySelector('button'); 
-
-submitButton.addEventListener('click', (e)=>{
-
-  
+submitButton.addEventListener("click", (e) => {
   const countryName = input.value;
 
   if (e.key === "Enter") {
@@ -35,14 +31,16 @@ submitButton.addEventListener('click', (e)=>{
       generateCountry(name);
     });
   }
-
-})
+});
 
 async function generateCountry(countryName) {
   const name = await fetch(
     `https://restcountries.com/v3.1/name/${countryName}`
   );
   const data = await name.json();
+
+  console.log(data);
+  
   const population = data[0].population;
   const countryNameCommon = data[0].name.common;
   const countryNameOfficial = data[0].name.official;
@@ -52,7 +50,15 @@ async function generateCountry(countryName) {
 
   const search = [];
 
-  // le constructor de Country() reçoit les paramètres dans cet ordre la : flag, common, official, population, region, map
+  if(data.status === "404"){
+    const errorMessage = document.createElement('p'); 
+    errorMessage.className = 'error';
+    errorMessage.innerText = "Couldn't find country";
+    form.appendChild(errorMessage);
+
+  }else{
+
+    // le constructor de Country() reçoit les paramètres dans cet ordre la : flag, common, official, population, region, map
   new Country(
     flag,
     countryNameCommon,
@@ -61,4 +67,9 @@ async function generateCountry(countryName) {
     subregion,
     maps
   );
+  }
+
+  
 }
+
+
