@@ -7,10 +7,13 @@ export default class country {
     this.region = region;
     this.map = map;
 
-    this.generateElement();
+	this.countries = [];
+
+	this.render();
+
   }
 
-  generateElement() {
+  #generateElement() {
     const main = document.querySelector(".results");
 
     main.innerHTML = ` 
@@ -39,4 +42,14 @@ export default class country {
 	</div>`;
 
   }
+
+
+render(){
+	this.#generateElement();
+	this.countries.push(this);
+};
+
+
+
+
 }
